@@ -143,6 +143,11 @@ namespace Utility.Web
       System.Net.WebRequest webRequest = System.Net.WebRequest.Create(url);
       System.Net.HttpWebRequest httpRequest = (System.Net.HttpWebRequest)webRequest;
       httpRequest.Method = "GET";
+      if (i_CurrentCredential != null) 
+      {
+          httpRequest.Credentials = i_CurrentCredential; 
+          httpRequest.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(new System.Text.ASCIIEncoding().GetBytes(string.Format("{0}:{1}", i_CurrentCredential.UserName, i_CurrentCredential.Password))));
+      }
       try
       {
         System.Net.WebResponse webResponse = httpRequest.GetResponse();
@@ -159,6 +164,45 @@ namespace Utility.Web
         throw ex;
       }
       return content;
+    }
+
+    public string PostContent(string url, string requestContent)
+    {
+        string content = string.Empty;
+        System.Net.WebRequest webRequest = System.Net.WebRequest.Create(url);
+        System.Net.HttpWebRequest httpRequest = (System.Net.HttpWebRequest)webRequest;
+        httpRequest.Method = "POST";
+        httpRequest.ContentType = "application/x-www-form-urlencoded";
+        if (i_CurrentCredential != null) 
+        { 
+            httpRequest.Credentials = i_CurrentCredential;
+            httpRequest.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(new System.Text.ASCIIEncoding().GetBytes(string.Format("{0}:{1}", i_CurrentCredential.UserName, i_CurrentCredential.Password))));
+        }
+        try
+        {
+            System.Text.Encoding code = System.Text.Encoding.ASCII;
+            byte[] bytesToPost = code.GetBytes(requestContent);
+            httpRequest.ContentLength = bytesToPost.Length;
+            using (System.IO.Stream requestStream = httpRequest.GetRequestStream())
+            { 
+                 requestStream.Write(bytesToPost, 0, bytesToPost.Length);
+                 requestStream.Close();
+            }
+
+            System.Net.WebResponse webResponse = httpRequest.GetResponse();
+            System.IO.Stream receivedStream = webResponse.GetResponseStream();
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(receivedStream, System.Text.Encoding.UTF8))
+            {
+                content = reader.ReadToEnd().Trim();
+                reader.Close();
+                receivedStream.Close();
+            }
+        }
+        catch (System.Net.WebException ex)
+        {
+            throw ex;
+        }
+        return content;
     }
 
     public static string GetQuickContent(string url)
