@@ -1,10 +1,18 @@
-Utility-CodeSnippet-
+Utility [CodeSnippet]
 ====================
 
-src
+Utility classes used for quick implementation of standard operations.
 
-Note:<br />
-Utility.IO.File<br />
-Utility.Web.Mail<br />
-Utility.Web.XML<br />
-Utility.Weibo
+Setup
+====================
+
+Add relevant files into project folder.
+
+* **C#**
+
+`using Utility;`
+
+* **VB.Net**
+
+`Imports Utility`
+
