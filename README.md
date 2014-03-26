@@ -16,3 +16,12 @@ Add relevant files into project folder.
 
 `Imports Utility`
 
+Structure
+====================
+
+* **Utility.IO.File**
+* **Utility.Web.IMail**
+* **Utility.Web.Gmail**
+* **Utility.Web.IContent**
+* **Utility.Web.HttpContent**
+
