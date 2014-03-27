@@ -24,6 +24,9 @@ Structure
 * **Utility.Web.Gmail**
 * **Utility.Web.IContent**
 * **Utility.Web.HttpContent**
+* **Utility.Controls.GoogleChart**
+* **Utility.Database.IDatabase**
+* **Utility.Database.AccessDB**
 
 Author
 ======
